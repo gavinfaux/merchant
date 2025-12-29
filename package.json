@@ -1,0 +1,22 @@
+{
+  "name": "merchant",
+  "version": "0.1.0",
+  "description": "Open-source commerce backend. Bring Stripe key, start selling.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init": "wrangler d1 execute DB --file=schema-d1.sql --local",
+    "db:seed": "npx tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "hono": "^4.6.0",
+    "stripe": "^17.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "wrangler": "^4.45.0"
+  }
+}

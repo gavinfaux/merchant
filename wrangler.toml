@@ -1,0 +1,38 @@
+# ============================================================
+# MERCHANT - Cloudflare Workers
+# ============================================================
+
+name = "merchant"
+main = "src/index.ts"
+compatibility_date = "2025-12-01"
+
+# D1 Database
+# For local dev: database is auto-created in .wrangler/state
+# For production: run `wrangler d1 create merchant-db` and paste the ID
+[[d1_databases]]
+binding = "DB"
+database_name = "merchant-db"
+database_id = "local"  # Replace with real ID after: wrangler d1 create merchant-db
+
+# R2 - Image storage
+# For production: run `wrangler r2 bucket create merchant-images`
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "merchant-images"
+
+[vars]
+IMAGES_URL = ""  # Set after deploy
+
+# Cron for expired cart cleanup
+[triggers]
+crons = ["*/15 * * * *"]
+
+[dev]
+port = 8787
+
+# ============================================================
+# OPTIONAL: Postgres + Hyperdrive (for scale)
+# ============================================================
+# [[hyperdrive]]
+# binding = "HYPERDRIVE"
+# id = ""

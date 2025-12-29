@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>merchant</title>
+  <link rel="icon" type="image/svg+xml" href="/site/logomark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <script>
+    (function() {
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (stored === 'dark' || (!stored && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+</head>
+<body class="text-[13px] antialiased">
+  <div id="app" class="min-h-screen flex">
+    
+    <!-- Login -->
+    <div id="login-page" class="page fixed inset-0 flex items-center justify-center z-50" style="background: var(--bg-app)">
+      <div class="w-full max-w-sm p-8 shadow-sm card">
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center mb-4">
+            <svg class="w-10 h-10 sidebar-logo" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg">
+              <path d="M46 84V88H42V84H46ZM84 46V42C84 21.0132 66.9868 4 46 4H42C21.0132 4 4 21.0132 4 42V46C4 66.9868 21.0132 84 42 84V88C18.804 88 0 69.196 0 46V42C1.01484e-06 19.1665 18.221 0.588624 40.916 0.0136719L42 0H46L47.084 0.0136719C69.779 0.588625 88 19.1665 88 42V46L87.9863 47.084C87.4114 69.779 68.8335 88 46 88V84C66.9868 84 84 66.9868 84 46Z"/>
+              <path d="M55.6 29C60.4 29 63.6 32.2 63.6 37V61H57.2V40.2C57.2 37 55.6 35.4 52.4 35.4C49.2 35.4 47.6 37 47.6 40.2V61H41.2V35.4H31.6V61H25.2V29H47.6V37C47.6 32.2 50.8 29 55.6 29Z"/>
+            </svg>
+          </div>
+          <h1 class="text-lg font-semibold">Connect to merchant</h1>
+          <p class="text-sm mt-1" style="color: var(--text-secondary)">Enter your API endpoint and admin key</p>
+        </div>
+        <form id="login-form" class="space-y-3">
+          <input type="url" id="api-url" placeholder="https://your-api.workers.dev" required
+            class="w-full px-3 py-2.5 text-sm font-mono input focus:ring-2" style="--tw-ring-color: var(--accent)">
+          <input type="password" id="api-key" placeholder="sk_..." required
+            class="w-full px-3 py-2.5 text-sm font-mono input focus:ring-2" style="--tw-ring-color: var(--accent)">
+          <button type="submit" class="w-full mt-2 px-4 py-2.5 text-sm font-medium btn-primary transition-colors">
+            Connect
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="relative w-56 border-r p-3 flex-col hidden">
+      <div id="collapse-toggle" class="collapse-toggle">
+        <div class="line"></div>
+      </div>
+
+      <div class="flex items-center gap-2.5 px-2.5 py-2 mb-4">
+        <svg class="w-5 h-5 flex-shrink-0 sidebar-logo" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg">
+          <path d="M46 84V88H42V84H46ZM84 46V42C84 21.0132 66.9868 4 46 4H42C21.0132 4 4 21.0132 4 42V46C4 66.9868 21.0132 84 42 84V88C18.804 88 0 69.196 0 46V42C1.01484e-06 19.1665 18.221 0.588624 40.916 0.0136719L42 0H46L47.084 0.0136719C69.779 0.588625 88 19.1665 88 42V46L87.9863 47.084C87.4114 69.779 68.8335 88 46 88V84C66.9868 84 84 66.9868 84 46Z"/>
+          <path d="M55.6 29C60.4 29 63.6 32.2 63.6 37V61H57.2V40.2C57.2 37 55.6 35.4 52.4 35.4C49.2 35.4 47.6 37 47.6 40.2V61H41.2V35.4H31.6V61H25.2V29H47.6V37C47.6 32.2 50.8 29 55.6 29Z"/>
+        </svg>
+        <span class="font-semibold text-sm sidebar-text" style="color: var(--text)">merchant</span>
+      </div>
+      
+      <div class="space-y-0.5">
+        <a href="#orders" class="nav-link flex items-center gap-2.5 px-2.5 py-2" data-page="orders">
+          <svg class="w-4 h-4 opacity-60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          <span class="sidebar-text">Orders</span>
+        </a>
+        <a href="#inventory" class="nav-link flex items-center gap-2.5 px-2.5 py-2" data-page="inventory">
+          <svg class="w-4 h-4 opacity-60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          <span class="sidebar-text">Inventory</span>
+        </a>
+        <a href="#products" class="nav-link flex items-center gap-2.5 px-2.5 py-2" data-page="products">
+          <svg class="w-4 h-4 opacity-60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          <span class="sidebar-text">Products</span>
+        </a>
+      </div>
+      
+      <div class="sidebar-footer mt-auto pt-3 space-y-0.5 border-t">
+        <button id="theme-toggle" class="w-full flex items-center gap-2.5 px-2.5 py-2 text-left transition-colors">
+          <svg id="theme-icon-light" class="w-4 h-4 opacity-60 flex-shrink-0 hidden" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg id="theme-icon-dark" class="w-4 h-4 opacity-60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          <span class="sidebar-text text-sm" id="theme-label">Dark mode</span>
+        </button>
+        <button id="logout-btn" class="w-full flex items-center gap-2.5 px-2.5 py-2 text-left transition-colors logout-btn">
+          <svg class="w-4 h-4 opacity-60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span class="sidebar-text">Disconnect</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main id="main" class="flex-1" style="background: var(--bg-content)">
+      <div class="p-6">
+      
+      <!-- Orders -->
+      <div id="orders-page" class="page hidden">
+        <div class="flex items-center justify-between mb-4 h-9">
+          <h1 class="text-lg font-semibold">Orders</h1>
+        </div>
+        <div class="card overflow-hidden">
+          <div class="px-4 py-3 flex items-center gap-3 table-header">
+            <div class="flex items-center gap-2" style="color: var(--text-muted)">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" id="orders-search" placeholder="Search orders..." class="bg-transparent border-0 text-sm w-48 focus:outline-none font-mono" style="color: var(--text)">
+            </div>
+          </div>
+          <table class="w-full font-mono text-[13px]">
+            <thead class="table-header">
+              <tr>
+                <th class="px-4 py-2.5 text-left text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Order</th>
+                <th class="px-4 py-2.5 text-left text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Customer</th>
+                <th class="px-4 py-2.5 text-left text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Status</th>
+                <th class="px-4 py-2.5 text-right text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Total</th>
+                <th class="px-4 py-2.5 text-left text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Date</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody"></tbody>
+          </table>
+          <div id="orders-empty" class="hidden py-12 text-center text-sm font-sans" style="color: var(--text-muted)">No orders yet</div>
+        </div>
+      </div>
+
+      <!-- Inventory -->
+      <div id="inventory-page" class="page hidden">
+        <div class="flex items-center justify-between mb-4 h-9">
+          <h1 class="text-lg font-semibold">Inventory</h1>
+        </div>
+        <div class="card overflow-hidden">
+          <div class="px-4 py-3 flex items-center gap-3 table-header">
+            <div class="flex items-center gap-2" style="color: var(--text-muted)">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" id="inventory-search" placeholder="Search SKUs..." class="bg-transparent border-0 text-sm w-48 focus:outline-none font-mono" style="color: var(--text)">
+            </div>
+          </div>
+          <table class="w-full font-mono text-[13px]">
+            <thead class="table-header">
+              <tr>
+                <th class="px-4 py-2.5 text-left text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">SKU</th>
+                <th class="px-4 py-2.5 text-left text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Product</th>
+                <th class="px-4 py-2.5 text-right text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">On Hand</th>
+                <th class="px-4 py-2.5 text-right text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Reserved</th>
+                <th class="px-4 py-2.5 text-right text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Available</th>
+                <th class="px-4 py-2.5"></th>
+              </tr>
+            </thead>
+            <tbody id="inventory-tbody"></tbody>
+          </table>
+          <div id="inventory-empty" class="hidden py-12 text-center text-sm font-sans" style="color: var(--text-muted)">No inventory yet</div>
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div id="products-page" class="page hidden">
+        <div class="flex items-center justify-between mb-4 h-9">
+          <h1 class="text-lg font-semibold">Products</h1>
+          <button id="add-product-btn" class="inline-flex items-center gap-1.5 px-3 py-2 text-sm rounded-sm font-medium btn-primary transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+            Add Product
+          </button>
+        </div>
+        <div class="card overflow-hidden">
+          <div class="px-4 py-3 flex items-center gap-3 table-header">
+            <div class="flex items-center gap-2" style="color: var(--text-muted)">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" id="products-search" placeholder="Search products..." class="bg-transparent border-0 text-sm w-48 focus:outline-none font-mono" style="color: var(--text)">
+            </div>
+          </div>
+          <table class="w-full font-mono text-[13px]">
+            <thead class="table-header">
+              <tr>
+                <th class="px-4 py-2.5 text-left text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Product</th>
+                <th class="px-4 py-2.5 text-left text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Description</th>
+                <th class="px-4 py-2.5 text-right text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Variants</th>
+                <th class="px-4 py-2.5 text-left text-xs font-medium font-sans uppercase tracking-wide" style="color: var(--text-secondary)">Status</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody"></tbody>
+          </table>
+          <div id="products-empty" class="hidden py-12 text-center text-sm font-sans" style="color: var(--text-muted)">No products yet</div>
+        </div>
+      </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Adjust Inventory Modal -->
+  <div id="adjust-modal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="p-6 w-full max-w-sm card" style="box-shadow: var(--shadow)">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-semibold">Adjust Inventory</h3>
+        <button type="button" class="modal-close p-1 hover:opacity-70">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <p id="adjust-sku" class="text-sm mb-4 font-mono" style="color: var(--text-secondary)"></p>
+      <form id="adjust-form" class="space-y-3">
+        <input type="number" id="adjust-delta" placeholder="Quantity (+/-)" required
+          class="w-full px-3 py-2.5 text-sm font-mono input focus:ring-2" style="--tw-ring-color: var(--accent)">
+        <select id="adjust-reason" class="w-full px-3 py-2.5 text-sm input focus:ring-2" style="--tw-ring-color: var(--accent)">
+          <option value="restock">Restock</option>
+          <option value="correction">Correction</option>
+          <option value="damaged">Damaged</option>
+          <option value="return">Return</option>
+        </select>
+        <div class="flex gap-2 justify-end pt-2">
+          <button type="button" class="modal-close px-4 py-2 text-sm font-medium transition-colors" style="color: var(--text-secondary)">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-sm font-medium btn-primary transition-colors">Adjust</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Product Modal (Create) -->
+  <div id="product-modal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="p-6 w-full max-w-sm card" style="box-shadow: var(--shadow)">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-semibold">New Product</h3>
+        <button type="button" class="modal-close p-1 hover:opacity-70">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="product-form" class="space-y-3">
+        <input type="text" id="product-title" placeholder="Product title" required
+          class="w-full px-3 py-2.5 text-sm input focus:ring-2" style="--tw-ring-color: var(--accent)">
+        <textarea id="product-description" placeholder="Description (optional)" rows="2"
+          class="w-full px-3 py-2.5 text-sm input focus:ring-2 resize-none" style="--tw-ring-color: var(--accent)"></textarea>
+        <div class="flex gap-2 justify-end pt-2">
+          <button type="button" class="modal-close px-4 py-2 text-sm font-medium transition-colors" style="color: var(--text-secondary)">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-sm font-medium btn-primary transition-colors">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Product Detail Modal (Multi-step: List → Add Variant) -->
+  <div id="product-detail-modal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+    <div class="w-full max-w-2xl max-h-[90vh] overflow-auto card" style="box-shadow: var(--shadow)">
+      
+      <!-- Step 1: Variants List -->
+      <div id="detail-step-list">
+        <div class="p-6 border-b" style="border-color: var(--border)">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 id="detail-product-title" class="text-lg font-semibold"></h3>
+              <p id="detail-product-description" class="text-sm mt-1" style="color: var(--text-secondary)"></p>
+            </div>
+            <button type="button" class="modal-close p-1 hover:opacity-70">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="font-medium">Variants</h4>
+            <button id="add-variant-btn" class="text-sm font-medium transition-colors" style="color: var(--accent)">+ Add Variant</button>
+          </div>
+          
+          <div id="variants-list" class="space-y-3"></div>
+          <div id="variants-empty" class="hidden py-8 text-center text-sm" style="color: var(--text-muted)">No variants yet. Add one to start selling.</div>
+        </div>
+      </div>
+      
+      <!-- Step 2: Add Variant Form -->
+      <div id="detail-step-add" class="hidden">
+        <div class="p-6 border-b" style="border-color: var(--border)">
+          <div class="flex items-center gap-3">
+            <button id="back-to-list-btn" class="p-1 hover:opacity-70">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <h3 class="text-lg font-semibold">Add Variant</h3>
+          </div>
+        </div>
+        
+        <form id="variant-form" class="p-6 space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-1.5">SKU</label>
+            <input type="text" id="variant-sku" placeholder="e.g. TEE-BLK-M" required
+              class="w-full px-3 py-2.5 text-sm font-mono input focus:ring-2" style="--tw-ring-color: var(--accent)">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium mb-1.5">Title</label>
+            <input type="text" id="variant-title" placeholder="e.g. Black / Medium" required
+              class="w-full px-3 py-2.5 text-sm input focus:ring-2" style="--tw-ring-color: var(--accent)">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium mb-1.5">Price (cents)</label>
+            <input type="number" id="variant-price" placeholder="e.g. 2999" required min="0"
+              class="w-full px-3 py-2.5 text-sm font-mono input focus:ring-2" style="--tw-ring-color: var(--accent)">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium mb-1.5">Image (optional)</label>
+            <div id="variant-image-preview" class="hidden mb-3">
+              <div class="relative inline-block">
+                <img id="variant-image-img" src="" alt="" class="w-24 h-24 object-cover border" style="border-color: var(--border)">
+                <button type="button" id="remove-image-btn" class="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600">×</button>
+              </div>
+            </div>
+            <label id="upload-zone" class="flex items-center justify-center w-full h-24 border-2 border-dashed cursor-pointer transition-colors hover:border-[var(--accent)]" style="border-color: var(--border); background: var(--bg-subtle)">
+              <input type="file" id="variant-image" accept="image/jpeg,image/png,image/webp,image/gif" class="hidden">
+              <div class="text-center">
+                <svg class="w-6 h-6 mx-auto mb-1" style="color: var(--text-muted)" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+                <span id="upload-label" class="text-xs" style="color: var(--text-muted)">Click to upload image</span>
+              </div>
+            </label>
+          </div>
+          
+          <div id="variant-error" class="hidden text-sm text-red-500"></div>
+          
+          <div class="flex gap-2 justify-end pt-2">
+            <button type="button" id="cancel-variant-btn" class="px-4 py-2 text-sm font-medium transition-colors" style="color: var(--text-secondary)">Cancel</button>
+            <button type="submit" id="variant-submit-btn" class="px-4 py-2 text-sm font-medium btn-primary transition-colors">Add Variant</button>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

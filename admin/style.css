@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+/* ============================================================
+   THEME VARIABLES
+   ============================================================ */
+
+:root {
+  /* Accent - Beautiful yellow-gold */
+  --accent: #f5c747;
+  --accent-hover: #e5b83d;
+  --accent-bg: #fcfae2;
+  --accent-text: #713f12;
+  
+  /* Light mode - warm wheat tones */
+  --sidebar-bg: #faf8f3;
+  --sidebar-border: #ebe6db;
+  --sidebar-text: #78716c;
+  --sidebar-text-hover: #292524;
+  --sidebar-active-bg: #f0ece3;
+  --sidebar-active-text: #1c1917;
+  
+  --bg-app: #faf8f3;
+  --bg-content: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #fdfcf9;
+  --bg-hover: rgba(0,0,0,0.03);
+  
+  --border: #ebe6db;
+  --border-subtle: #f5f2eb;
+  
+  --text: #1c1917;
+  --text-secondary: #57534e;
+  --text-muted: #a8a29e;
+  --text-inverse: #1c1917;
+  
+  --badge-bg: #fcfae2;
+  --badge-text: #854d0e;
+}
+
+.dark {
+  /* Accent stays same but different active treatment */
+  --accent: #f5c747;
+  --accent-hover: #fcd34d;
+  --accent-bg: rgba(245,199,71,0.15);
+  --accent-text: #f5c747;
+  
+  /* Dark mode sidebar */
+  --sidebar-bg: #0c0c0c;
+  --sidebar-border: #1f1f1f;
+  --sidebar-text: #737373;
+  --sidebar-text-hover: #e5e5e5;
+  --sidebar-active-bg: rgba(255,255,255,0.08);
+  --sidebar-active-text: #fafafa;
+  
+  /* Dark mode content */
+  --bg-app: #000000;
+  --bg-content: #0a0a0a;
+  --bg-elevated: #171717;
+  --bg-subtle: #0a0a0a;
+  --bg-hover: rgba(255,255,255,0.05);
+  
+  --border: #262626;
+  --border-subtle: #1a1a1a;
+  
+  --text: #fafafa;
+  --text-secondary: #a3a3a3;
+  --text-muted: #525252;
+  --text-inverse: #0a0a0a;
+  
+  --badge-bg: #422006;
+  --badge-text: #fcd34d;
+}
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-app);
+  color: var(--text);
+}
+
+/* ============================================================
+   APP LAYOUT
+   ============================================================ */
+
+#app.logged-in #login-page { display: none !important; }
+#app.logged-in #sidebar { display: flex !important; }
+#app:not(.logged-in) #sidebar { display: none !important; }
+#app:not(.logged-in) .page:not(#login-page) { display: none !important; }
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+#sidebar {
+  background: var(--sidebar-bg);
+  border-color: var(--sidebar-border);
+  transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#sidebar.collapsed { width: 56px; }
+#sidebar.collapsed .sidebar-text { opacity: 0; width: 0; overflow: hidden; }
+#sidebar .sidebar-text {
+  transition: opacity 150ms ease, width 150ms ease;
+  white-space: nowrap;
+}
+
+/* Logo */
+.sidebar-logo {
+  fill: var(--text);
+}
+
+/* Collapse toggle */
+.collapse-toggle {
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 150ms ease;
+}
+
+.collapse-toggle:hover {
+  border-color: var(--accent);
+}
+
+.collapse-toggle .line {
+  width: 2px;
+  height: 12px;
+  background: var(--text-muted);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collapse-toggle:hover .line {
+  background: var(--accent);
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+  width: 6px;
+}
+
+#sidebar.collapsed .collapse-toggle:hover .line {
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
+}
+
+/* Nav links in sidebar */
+#sidebar .nav-link {
+  color: var(--sidebar-text);
+}
+#sidebar .nav-link:hover {
+  color: var(--sidebar-text-hover);
+  background: var(--bg-hover);
+}
+#sidebar .nav-link.active {
+  color: var(--sidebar-active-text);
+  background: var(--sidebar-active-bg);
+  font-weight: 500;
+}
+
+/* Sidebar footer */
+#sidebar .sidebar-footer {
+  border-color: var(--sidebar-border);
+}
+#sidebar .sidebar-footer button {
+  color: var(--sidebar-text);
+}
+#sidebar .sidebar-footer button:hover {
+  color: var(--sidebar-text-hover);
+  background: var(--bg-hover);
+}
+#sidebar .sidebar-footer .logout-btn:hover {
+  color: #ef4444;
+  background: rgba(239,68,68,0.1);
+}
+
+/* ============================================================
+   COMPONENTS
+   ============================================================ */
+
+/* Cards & containers */
+.card {
+  background: var(--bg-content);
+  border: 1px solid var(--border);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--accent);
+  color: var(--text-inverse);
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+/* Inputs */
+.input {
+  background: var(--bg-content);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.input::placeholder {
+  color: var(--text-muted);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* Tables */
+.table-header {
+  background: var(--bg-subtle);
+}
+/* Only add border to search row, not thead */
+div.table-header {
+  border-bottom: 1px solid var(--border);
+}
+.table-row {
+  border-bottom: 1px solid var(--border-subtle);
+}
+.table-row:hover {
+  background: var(--bg-hover);
+}
+
+/* Status badges */
+.badge-success {
+  background: var(--badge-bg);
+  color: var(--badge-text);
+}
+
+/* Nav links in content area */
+.nav-link {
+  color: var(--text-secondary);
+  transition: all 150ms ease;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+.nav-link.active {
+  color: var(--accent);
+  background: var(--bg-hover);
+}
