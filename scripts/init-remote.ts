@@ -49,11 +49,14 @@ async function init() {
   console.log(`   Public:  ${publicKey}`);
   console.log(`   Admin:   ${adminKey}`);
   console.log('\n' + '─'.repeat(50));
-  console.log(`\n📡 API URL: https://merchant.burcs.workers.dev`);
-  console.log('\n📝 Connect admin dashboard:');
-  console.log('   cd admin && npm run dev');
-  console.log(`   URL: https://merchant.burcs.workers.dev`);
-  console.log(`   Key: ${adminKey}\n`);
+  console.log('\n📝 Next steps:\n');
+  console.log('   1. Connect Stripe:');
+  console.log(`      curl -X POST https://YOUR_WORKER_URL/v1/setup/stripe \\`);
+  console.log(`        -H "Authorization: Bearer ${adminKey}" \\`);
+  console.log(`        -H "Content-Type: application/json" \\`);
+  console.log(`        -d '{"stripe_secret_key":"sk_live_...","stripe_webhook_secret":"whsec_..."}'\n`);
+  console.log('   2. Start admin dashboard:');
+  console.log('      cd admin && npm run dev\n');
 }
 
 init().catch(err => {
