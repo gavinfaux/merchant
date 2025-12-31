@@ -254,14 +254,6 @@ src/
 | Images | R2 |
 | Payments | Stripe |
 
-## Scaling
-
-For high traffic, switch from D1 to Postgres via Hyperdrive:
-
-1. Create a Postgres database (Neon, Supabase, etc.)
-2. Create a Hyperdrive config: `wrangler hyperdrive create merchant-db --connection-string="..."`
-3. Uncomment Hyperdrive in `wrangler.jsonc`
-4. Apply `schema-postgres.sql` to your database
 
 ## License
 
