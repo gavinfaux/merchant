@@ -253,6 +253,10 @@ webhooks.post('/stripe', async (c) => {
           );
         }
 
+        // Update cart status to prevent cron from treating it as abandoned checkout
+        // This prevents the abandoned checkout cleanup from incorrectly decrementing discount usage_count
+        await db.run(`UPDATE carts SET status = 'expired', updated_at = ? WHERE id = ?`, [now(), cartId]);
+
         // Dispatch order.created webhook
         const orderItems = await db.query<any>(`SELECT * FROM order_items WHERE order_id = ?`, [orderId]);
         await dispatchWebhooks(c.env, c.executionCtx, store.id, 'order.created', {
