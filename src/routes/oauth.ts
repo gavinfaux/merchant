@@ -21,6 +21,9 @@ export const oauth = new Hono<HonoEnv>();
 const VALID_SCOPES = [
   'openid',
   'profile',
+  'ucp:scopes:checkout_session',
+  'ucp:scopes:order',
+  'ucp:scopes:identity',
   'checkout',
   'orders.read',
   'orders.write',
@@ -391,6 +394,9 @@ function generateLoginPage(authId: string, clientId: string, scope: string, stor
   const scopeDescriptions: Record<string, string> = {
     'openid': 'Verify your identity',
     'profile': 'Access your name and email',
+    'ucp:scopes:checkout_session': 'Create and manage checkout sessions',
+    'ucp:scopes:order': 'Access order information and updates',
+    'ucp:scopes:identity': 'Link your account',
     'checkout': 'Create orders on your behalf',
     'orders.read': 'View your order history',
     'orders.write': 'Manage your orders',

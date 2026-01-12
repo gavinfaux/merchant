@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import { getDb } from '../db';
 import { ApiError, uuid, now, generateOrderNumber, type HonoEnv } from '../types';
 import { dispatchWebhooks } from '../lib/webhooks';
+import { handleUCPStripeWebhook } from './ucp';
 
 // ============================================================
 // WEBHOOK ROUTES
@@ -46,9 +47,13 @@ webhooks.post('/stripe', async (c) => {
   ]);
   if (existing) return c.json({ ok: true });
 
-  // Handle checkout.session.completed
   if (event.type === 'checkout.session.completed') {
     const webhookSession = event.data.object as Stripe.Checkout.Session;
+    
+    if (webhookSession.metadata?.ucp_checkout_session_id) {
+      await handleUCPStripeWebhook(db, webhookSession.id, webhookSession);
+    }
+    
     const cartId = webhookSession.metadata?.cart_id;
 
     if (cartId) {

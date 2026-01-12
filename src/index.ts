@@ -12,6 +12,7 @@ import { webhooksRoutes } from './routes/webhooks-outbound';
 import { images } from './routes/images';
 import { discounts } from './routes/discounts';
 import { oauth } from './routes/oauth';
+import { ucp } from './routes/ucp';
 import { rateLimitMiddleware } from './middleware/rate-limit';
 import { ApiError, type Env, type DOStub } from './types';
 import { MerchantDO } from './do';
@@ -68,6 +69,7 @@ app.route('/v1/images', images);
 app.route('/v1/discounts', discounts);
 app.route('/oauth', oauth);
 app.route('', oauth);
+app.route('', ucp);
 
 app.doc('/openapi.json', {
   openapi: '3.0.0',

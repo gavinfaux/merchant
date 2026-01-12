@@ -235,9 +235,75 @@ DELETE /v1/webhooks/{id}
 
 Payloads are signed with HMAC-SHA256. Verify with the `X-Merchant-Signature` header.
 
-## OAuth 2.0 / UCP (for platforms)
+## UCP (Universal Commerce Protocol)
 
-Merchant supports OAuth 2.0 for platforms (AI agents, apps, UCP-compliant surfaces) to act on behalf of customers. **Zero configuration required** — it works out of the box.
+Merchant implements the [Universal Commerce Protocol](https://ucp.dev) for AI agent-to-commerce interoperability. UCP enables AI agents to discover, browse, and transact with any UCP-compliant merchant through a standard protocol.
+
+### UCP Discovery
+
+```bash
+# Get UCP profile with capabilities, services, and payment handlers
+GET /.well-known/ucp
+```
+
+Response includes:
+- **Capabilities**: `dev.ucp.shopping.checkout`, `dev.ucp.common.identity_linking`, `dev.ucp.shopping.order`
+- **Services**: REST endpoints for shopping operations
+- **Payment Handlers**: Stripe Checkout (redirect-based)
+
+### UCP Checkout Flow (for AI agents)
+
+```bash
+# 1. Create checkout session
+POST /ucp/v1/checkout-sessions
+{
+  "currency": "USD",
+  "line_items": [
+    {"item": {"id": "TEE-BLK-M"}, "quantity": 2}
+  ],
+  "buyer": {"email": "buyer@example.com"}
+}
+
+# 2. Complete checkout (returns Stripe redirect URL)
+POST /ucp/v1/checkout-sessions/{id}/complete
+{
+  "payment_data": {
+    "handler_id": "stripe_checkout",
+    "success_url": "https://your-app.com/success",
+    "cancel_url": "https://your-app.com/cancel"
+  }
+}
+
+# 3. Agent presents continue_url to user for payment
+```
+
+### UCP Checkout Session Lifecycle
+
+| Status | Description |
+|--------|-------------|
+| `incomplete` | Session created, items may have validation errors |
+| `requires_escalation` | Human interaction needed (payment redirect) |
+| `ready_for_complete` | Session can be completed |
+| `complete_in_progress` | Payment processing |
+| `completed` | Order created successfully |
+| `canceled` | Session canceled |
+
+### UCP Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/.well-known/ucp` | Profile discovery |
+| POST | `/ucp/v1/checkout-sessions` | Create checkout |
+| GET | `/ucp/v1/checkout-sessions/:id` | Get checkout |
+| PUT | `/ucp/v1/checkout-sessions/:id` | Update checkout |
+| POST | `/ucp/v1/checkout-sessions/:id/complete` | Complete checkout |
+| DELETE | `/ucp/v1/checkout-sessions/:id` | Cancel checkout |
+
+All UCP responses include a `ucp` envelope with version and active capabilities.
+
+## OAuth 2.0 (for platforms)
+
+Merchant supports OAuth 2.0 for platforms to act on behalf of customers. **Zero configuration required** — works out of the box.
 
 ### Discovery
 
@@ -382,7 +448,8 @@ src/
     ├── images.ts     # R2 image upload
     ├── setup.ts      # Store configuration
     ├── webhooks.ts   # Stripe webhooks
-    └── oauth.ts      # OAuth 2.0 / UCP support
+    ├── oauth.ts      # OAuth 2.0 support
+    └── ucp.ts        # UCP (Universal Commerce Protocol)
 ```
 
 ## Stack
